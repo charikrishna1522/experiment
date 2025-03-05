@@ -13,11 +13,33 @@ jobs:
         BRAND: ["T"]
         REGION: ["na", "jp"]
         SCREEN: ["10.5_1280x720", "12.3_1920x720", "14_1920x1080"]
-        LOCALE: ["en", "ja"]
+        include:
+          - LOCALE: en
+            REGION: na
+          - LOCALE: ja
+            REGION: jp
     steps:
       - name: run test
         run: echo "Running tests for ${{matrix.BRAND}} ${{matrix.REGION}} ${{matrix.SCREEN}} ${{matrix.LOCALE}}"
   ivi_coverage:
+    needs: ivi_test
+    runs-on: ubuntu-latest
+    steps:
+      - name: coverage
+        run: echo "Running coverage"
+
+  navi_test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        BRAND: ["T"]
+        REGION: ["na", "jp"]
+        SCREEN: ["10.5_1280x720", "12.3_1920x720", "14_1920x1080"]
+        LOCALE: ["en", "ja"]
+    steps:
+      - name: run test
+        run: echo "Running tests for ${{matrix.BRAND}} ${{matrix.REGION}} ${{matrix.SCREEN}} ${{matrix.LOCALE}}"
+  navi_coverage:
     needs: ivi_test
     runs-on: ubuntu-latest
     steps:
